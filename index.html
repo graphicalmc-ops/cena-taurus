@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cena en equipo · Cartagena 70.3</title>
+<meta name="description" content="Pedido del plato fuerte para la cena del equipo, viernes 27 de noviembre a las 7:00 p.m. en Di Silvio Trattoria, Getsemaní.">
+<meta property="og:title" content="Cena en equipo · Cartagena 70.3">
+<meta property="og:description" content="Elige tu plato fuerte y el de tus acompañantes. Viernes 27 de noviembre, 7:00 p.m., Di Silvio Trattoria.">
+<meta name="theme-color" content="#2343c8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,600;1,800&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: una columna tipo dorsal de carrera; cabecera en azul rey con el logo, pasos numerados porque el orden importa */
+:root {
+  --bg: #f4f3fb;
+  --surface: #ffffff;
+  --ink: #1a1838;
+  --muted: #5d5a7e;
+  --line: #dcd9ef;
+  --royal: #2343c8;
+  --fuchsia: #d81b7f;
+  --purple: #6b2fb3;
+  --on-color: #ffffff;
+  --soft: #ece8fb;
+  --ok: #1d7a4e;
+  --danger: #c0303f;
+  --display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f0e1f; --surface: #1a1930; --ink: #ecebf8; --muted: #a6a3c6; --line: #2f2d4d;
+  --royal: #6f88ff; --fuchsia: #ff5cae; --purple: #a77cf0; --on-color: #0f0e1f; --soft: #252342;
+  --ok: #5fd39a; --danger: #ff8090; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f0e1f; --surface: #1a1930; --ink: #ecebf8; --muted: #a6a3c6; --line: #2f2d4d;
+  --royal: #6f88ff; --fuchsia: #ff5cae; --purple: #a77cf0; --on-color: #0f0e1f; --soft: #252342;
+  --ok: #5fd39a; --danger: #ff8090; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.5 var(--body); }
+.band { background: linear-gradient(135deg, #1b2fa0 0%, #2343c8 45%, #6b2fb3 100%); color: #fff;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.hero { max-width: 560px; margin: 0 auto; padding-block: 30px 26px; }
+.hero-text { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+h1 { font: italic 800 clamp(32px, 9vw, 44px)/.95 var(--display); margin: 0; text-transform: uppercase; letter-spacing: .01em; text-wrap: balance; }
+h1 em { font-style: italic; color: #ff8cc6; }
+.facts { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; color: #e3e6ff; }
+.facts span { white-space: nowrap; }
+.facts b { color: #fff; font-weight: 600; }
+
+.wrap { max-width: 560px; margin: 0 auto; padding-block: 22px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 26px; }
+
+.rules { background: var(--soft); border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+.rules strong { color: var(--fuchsia); }
+.rules p { margin: 0; }
+
+section { display: flex; flex-direction: column; gap: 12px; }
+.step-head { display: flex; align-items: baseline; gap: 10px; }
+.step-num { font: italic 800 26px/1 var(--display); color: var(--fuchsia); }
+h2 { font: 700 19px/1.2 var(--body); margin: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+label { font-weight: 600; font-size: 14px; display: block; margin-bottom: 6px; }
+.hint { font-size: 13px; color: var(--muted); margin: 0; }
+.req { color: var(--fuchsia); }
+.field-error { display: flex; gap: 6px; align-items: center; color: var(--danger); font-size: 13px; font-weight: 500; margin: 6px 0 0; }
+.field-error::before { content: "!"; display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--danger); color: var(--surface); font-size: 11px; font-weight: 700; flex: none; }
+input[aria-invalid="true"] { border-color: var(--danger); border-width: 2px; padding: 10px 11px; }
+textarea { width: 100%; min-height: 96px; resize: vertical; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; }
+.dash-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.tile { background: var(--soft); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+.tile small { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.tile b { font: 500 20px/1.1 var(--mono); font-variant-numeric: tabular-nums; }
+.dash-sec { font: 600 12px/1 var(--body); text-transform: uppercase; letter-spacing: .08em; color: var(--purple); margin: 8px 0 0; }
+.count-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.count-row .n { font: 500 15px/1 var(--mono); font-variant-numeric: tabular-nums; min-width: 2.5ch; text-align: right; }
+.bar { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: var(--soft); overflow: hidden; }
+.bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--royal), var(--fuchsia)); }
+.person { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+.person-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.person-head b { font-size: 16px; }
+.person-head span { font: 500 15px/1 var(--mono); font-variant-numeric: tabular-nums; }
+.pline { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; font-size: 14px; }
+.pline .who { color: var(--muted); }
+.pline .pr { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.comment { font-size: 14px; background: var(--soft); border-radius: 8px; padding: 8px 10px; overflow-wrap: anywhere; }
+.dash-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+input[type=text], input:not([type]), select { width: 100%; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; min-width: 0; }
+:focus-visible { outline: 2px solid var(--royal); outline-offset: 2px; }
+
+.pick { display: flex; flex-direction: column; gap: 8px; }
+.chosen { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; align-items: center; padding: 12px 14px; border-radius: 12px; background: var(--soft); }
+.chosen .dish { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.chosen .sec { font-size: 12px; color: var(--purple); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.chosen .amt { grid-row: 1 / span 2; grid-column: 2; font: 500 15px/1 var(--mono); font-variant-numeric: tabular-nums; }
+.calz { display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 14px; margin: 0; cursor: pointer; }
+.calz input { width: 18px; height: 18px; accent-color: var(--fuchsia); }
+.companion { border-top: 1px dashed var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.companion-head { display: flex; justify-content: space-between; align-items: center; }
+.companion-head span { font: 600 12px/1 var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+button { font: 600 15px/1 var(--body); border-radius: 10px; padding: 12px 16px; cursor: pointer; border: 1px solid transparent; }
+.btn-primary { background: var(--fuchsia); color: var(--on-color); }
+.btn-select { background: var(--royal); color: var(--on-color); width: 100%; }
+.btn-select.invalid { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--danger); }
+.btn-select.change { background: transparent; color: var(--royal); border-color: var(--line); width: auto; align-self: flex-start; padding: 9px 12px; font-size: 14px; }
+.btn-ghost { background: transparent; color: var(--royal); border-color: var(--line); }
+.btn-link { background: none; border: none; color: var(--danger); padding: 4px; font-size: 14px; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+
+.receipt { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; font-family: var(--mono); font-variant-numeric: tabular-nums; position: relative; overflow: hidden; }
+.receipt::before { content: ""; position: absolute; inset: 0 0 auto; height: 6px; background: linear-gradient(90deg, var(--royal), var(--purple), var(--fuchsia)); }
+.receipt .row { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; font-size: 14px; }
+.receipt .row span:first-child { font-family: var(--body); color: var(--muted); min-width: 0; overflow-wrap: anywhere; }
+.receipt hr { border: none; border-top: 1px dashed var(--line); margin: 8px 0; }
+.receipt .total { padding-top: 6px; align-items: flex-end; }
+.receipt .total .lbl { display: flex; flex-direction: column; gap: 2px; }
+.receipt .total .lbl b { font: italic 800 22px/1 var(--display); text-transform: uppercase; color: var(--ink); }
+.receipt .total .lbl small { font: 400 12px/1.3 var(--body); color: var(--muted); }
+.receipt .total .big { font-size: 24px; color: var(--fuchsia); }
+
+.pay { display: flex; flex-direction: column; gap: 12px; }
+.key { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px; border-radius: 12px; border: 2px dashed var(--purple); }
+.key .k { font: 500 22px/1 var(--mono); color: var(--purple); user-select: all; }
+.key small { display: block; font: 600 12px/1 var(--body); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+.drop { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 18px; border: 1px dashed var(--line); border-radius: 12px; text-align: center; cursor: pointer; }
+.drop img { max-height: 220px; border-radius: 8px; }
+.drop.invalid { border: 2px solid var(--danger); }
+.drop.ready { border-style: solid; border-color: var(--ok); }
+.drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+.status { font-size: 14px; color: var(--muted); min-height: 1.5em; }
+.status.ok { color: var(--ok); } .status.err { color: var(--danger); }
+.confirm-box { background: var(--soft); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.confirm-box p { margin: 0; font-size: 15px; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.done { border-left: 4px solid var(--ok); }
+.done h3 { margin: 0; font-size: 17px; }
+
+.orders { display: flex; flex-direction: column; }
+.order { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.order:last-child { border-bottom: none; }
+.order .amt { font: 500 15px/1.4 var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+.order .detail { grid-column: 1 / -1; font-size: 13px; color: var(--muted); }
+.order .meta { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; }
+.chip { font: 600 11px/1 var(--body); letter-spacing: .06em; text-transform: uppercase; padding: 4px 8px; border-radius: 99px; background: var(--soft); color: var(--purple); }
+.chip.paid { background: var(--ok); color: var(--surface); }
+.grand { display: flex; justify-content: space-between; font: 700 16px/1.3 var(--body); padding-top: 12px; border-top: 2px solid var(--ink); }
+.grand span:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.empty { color: var(--muted); font-size: 15px; margin: 0; }
+a { color: var(--royal); }
+
+/* Modal del menú */
+dialog { border: none; padding: 0; width: min(560px, 100%); max-height: min(86vh, 760px); background: var(--surface); color: var(--ink); border-radius: 18px 18px 0 0; margin: auto auto 0; }
+@media (min-width: 600px) { dialog { border-radius: 18px; margin: auto; } }
+dialog::backdrop { background: rgba(15, 12, 40, .55); }
+.m-wrap { display: flex; flex-direction: column; max-height: inherit; }
+.m-head { flex: none; padding: 16px 16px 0; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.m-head h3 { margin: 0; font: italic 800 24px/1 var(--display); text-transform: uppercase; }
+.m-close { background: var(--soft); color: var(--ink); padding: 8px 12px; }
+.tabs { flex: none; display: flex; align-items: center; gap: 8px; overflow-x: auto; overflow-y: hidden; padding: 12px 16px; border-bottom: 1px solid var(--line); scrollbar-width: none; }
+.tab { flex: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; background: var(--soft); color: var(--ink); border-radius: 99px; padding: 10px 16px; font-size: 14px; line-height: 1.2; }
+.tab[aria-selected="true"] { background: var(--royal); color: var(--on-color); }
+.dishes { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 6px 16px calc(16px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; }
+.dish-opt { text-align: left; background: none; border: none; border-bottom: 1px solid var(--line); border-radius: 0; padding: 14px 4px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; color: var(--ink); font-weight: 400; }
+.dish-opt:hover { background: var(--soft); }
+.dish-opt b { font-weight: 600; line-height: 1.3; }
+.dish-opt .d { font-size: 13px; color: var(--muted); grid-column: 1; line-height: 1.4; }
+.dish-opt .p { grid-row: 1 / span 2; grid-column: 2; font: 500 15px/1.3 var(--mono); color: var(--fuchsia); font-variant-numeric: tabular-nums; }
+.dish-opt.on { background: var(--soft); }
+
+.ok-wrap { padding: 22px 18px calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+.ok-head { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.ok-icon { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--royal), var(--fuchsia)); }
+.ok-icon svg { width: 28px; height: 28px; stroke: #fff; fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.ok-head h3 { margin: 0; font: italic 800 30px/1 var(--display); text-transform: uppercase; }
+.ok-head p { margin: 0; color: var(--muted); font-size: 15px; max-width: 34ch; }
+.ok-event { display: flex; flex-direction: column; gap: 2px; font-size: 14px; background: var(--soft); border-radius: 12px; padding: 12px 14px; }
+.ok-event b { font-weight: 600; }
+.ok-proof { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ok); font-weight: 600; }
+.menu-admin .menu-item { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.menu-admin .amt { font: 500 14px/1 var(--mono); font-variant-numeric: tabular-nums; }
+.menu-admin h4 { margin: 10px 0 2px; font-size: 13px; color: var(--purple); text-transform: uppercase; letter-spacing: .06em; }
+.menu-add { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.menu-add .full { grid-column: 1 / -1; }
+.pill { font: 600 11px/1 var(--body); letter-spacing: .06em; text-transform: uppercase; background: var(--fuchsia); color: var(--on-color); padding: 4px 8px; border-radius: 99px; vertical-align: middle; }
+@media (prefers-reduced-motion: no-preference) { button { transition: transform .1s; } button:active { transform: scale(.98); } }
+</style>
+</head>
+<body>
+<div class="band">
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Cena en equipo <em>Cartagena 70.3</em></h1>
+      <div class="facts">
+        <span><b>Viernes 27 de noviembre</b> · 7:00 p.m.</span>
+        <span><b>Di Silvio Trattoria</b> · Getsemaní</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="rules">
+    <p>Solo puedes hacer tu pedido <strong>una vez</strong>. Incluye tu plato y el de tus acompañantes.</p>
+    <p>Aquí solo pides el plato fuerte. Entradas y bebidas se piden y se pagan el mismo día en el restaurante.</p>
+  </div>
+
+  <div id="formArea">
+    <section>
+      <div class="step-head"><span class="step-num">1</span><h2>Tu plato</h2></div>
+      <div class="card">
+        <div>
+          <label for="who">Tu nombre <span class="req" aria-hidden="true">*</span></label>
+          <input id="who" type="text" autocomplete="name" placeholder="Ej. Laura Gómez" required aria-required="true" aria-describedby="whoErr">
+          <p class="field-error" id="whoErr" hidden>Escribe tu nombre para hacer el pedido.</p>
+        </div>
+        <div class="pick" id="myPick"></div>
+      </div>
+    </section>
+
+    <section style="margin-top:26px">
+      <div class="step-head"><span class="step-num">2</span><h2>Acompañantes</h2></div>
+      <div class="card">
+        <p class="hint" id="noCompanions">Si vas solo, sigue al paso 3.</p>
+        <div id="companions"></div>
+        <div><button type="button" class="btn-ghost" id="addCompanion">+ Agregar acompañante</button></div>
+      </div>
+    </section>
+
+    <section style="margin-top:26px">
+      <div class="step-head"><span class="step-num">3</span><h2>Comentarios</h2></div>
+      <div class="card">
+        <div>
+          <label for="notes">¿Algo que debamos saber? <span class="hint">(opcional)</span></label>
+          <textarea id="notes" maxlength="500" placeholder="Ej. Ravioli con salsa rosé, pizza sin cebolla, llego a las 7:30 p.m."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:26px">
+      <div class="step-head"><span class="step-num">4</span><h2>Total a pagar</h2></div>
+      <div class="receipt" aria-live="polite">
+        <div id="receiptLines"></div>
+        <hr>
+        <div class="row"><span>Subtotal</span><span id="subtotal">$0</span></div>
+        <div class="row"><span>Servicio</span><span id="service">$0</span></div>
+        <div class="row total">
+          <span class="lbl"><b>Total</b><small>Incluye el 10% de servicio</small></span>
+          <span class="big" id="total">$0</span>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:26px">
+      <div class="step-head"><span class="step-num">5</span><h2>Paga y sube el comprobante</h2></div>
+      <div class="card pay">
+        <p class="hint" style="font-size:15px;color:var(--ink)">Para confirmar tu pedido, transfiere el total a esta llave y sube la imagen del comprobante.</p>
+        <div class="key">
+          <div><small>Llave</small><span class="k" id="llave">@MSR970</span></div>
+          <button type="button" class="btn-ghost" id="copyKey">Copiar</button>
+        </div>
+        <label class="drop" for="proof" id="dropZone">
+          <input id="proof" type="file" accept="image/*" required aria-required="true" aria-describedby="proofErr">
+          <span id="proofLabel"><b>Subir comprobante <span class="req" aria-hidden="true">*</span></b><br><span class="hint">Imagen JPG o PNG</span></span>
+          <img id="proofPreview" alt="Comprobante de pago" hidden>
+        </label>
+        <p class="field-error" id="proofErr" hidden>Sube la imagen del comprobante para confirmar tu pedido.</p>
+      </div>
+    </section>
+
+    <section style="margin-top:26px">
+      <p class="hint" style="font-size:14px;margin-bottom:10px">Revisa tu pedido antes de enviarlo. Después de enviarlo no se puede cambiar.</p>
+      <button class="btn-primary" id="send" type="button" style="width:100%">Enviar pedido</button>
+      <div class="status" id="status"></div>
+    </section>
+  </div>
+
+  <section id="doneArea" hidden>
+    <div class="card done">
+      <h3>Ya enviaste tu pedido</h3>
+      <div id="doneDetail"></div>
+      <p class="hint">Si necesitas un cambio, escríbele a la organizadora. Si alguien más va a pedir desde este mismo teléfono, <button type="button" class="btn-link" id="newOrder" style="padding:0;color:var(--royal)">haz un pedido nuevo</button>.</p>
+    </div>
+  </section>
+
+
+</div>
+
+<dialog id="okModal" aria-labelledby="okTitle">
+  <div class="ok-wrap">
+    <div class="ok-head">
+      <div class="ok-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h3 id="okTitle">¡Pedido enviado!</h3>
+      <p id="okLede">Tu pedido quedó registrado. Este es tu resumen.</p>
+    </div>
+    <div class="ok-event"><b>Cena en equipo · Cartagena 70.3</b><span>Viernes 27 de noviembre · 7:00 p.m.</span><span>Di Silvio Trattoria · Getsemaní</span></div>
+    <div class="receipt" id="okReceipt"></div>
+    <p class="comment" id="okNotes" hidden></p>
+    <div class="ok-proof">✓ Comprobante de pago recibido</div>
+    <p class="hint">Entradas y bebidas se piden y se pagan el mismo día en el restaurante.</p>
+    <button class="btn-primary" id="okClose" type="button">Listo</button>
+  </div>
+</dialog>
+
+<dialog id="menuModal" aria-labelledby="mTitle">
+  <div class="m-wrap">
+    <div class="m-head"><h3 id="mTitle">Menú</h3><button class="m-close" id="mClose" type="button">Cerrar</button></div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="dishes" id="dishes"></div>
+  </div>
+</dialog>
+
+<script>
+const MENU = [{"id": "pr1", "section": "Pastas rellenas", "name": "Melanzane Parmigiana", "desc": "Berenjenas, mozzarella, parmesano, salsa pomodoro, ajo, albahaca y aceite de oliva", "price": 37000}, {"id": "pr2", "section": "Pastas rellenas", "name": "Ravioli di Salmone", "desc": "Pasta al huevo, salmón fresco, ricotta, ralladura de limón y parmesano. Salsa al gusto: pomodoro, blanca, pesto con almendras, mantequilla y salvia o rosé", "price": 37000}, {"id": "pr3", "section": "Pastas rellenas", "name": "Ravioli Spinaci e Ricotta", "desc": "Pasta al huevo, espinaca, ricotta y parmesano. Salsa al gusto: pomodoro, blanca, pesto con almendras, mantequilla y salvia o rosé. Vegetariano", "price": 36000}, {"id": "pr4", "section": "Pastas rellenas", "name": "Lasagna Mixta", "desc": "Salsa boloñesa, pollo, tocineta, bechamel, mozzarella, cebolla y parmesano", "price": 39900}, {"id": "pr5", "section": "Pastas rellenas", "name": "Ravioli di Carne e Funghi", "desc": "Pasta al huevo, carne, champiñones y parmesano. Salsa al gusto: pomodoro, blanca, pesto con almendras, mantequilla y salvia o rosé", "price": 36000}, {"id": "pr6", "section": "Pastas rellenas", "name": "Involtini Spinaci e Ricotta", "desc": "Pasta al huevo, espinaca, ricotta, nuez moscada y parmesano. Salsa al gusto: pomodoro, blanca, pesto con almendras, mantequilla y salvia o rosé. Vegetariano", "price": 39000}, {"id": "pr7", "section": "Pastas rellenas", "name": "Lasagna Bianca", "desc": "Crema de leche, pollo, espinaca, cebolla, champiñones, mozzarella y parmesano", "price": 42000}, {"id": "pz1", "section": "Pizze e Calzoni", "name": "Pizza Stracciatella de Burrata", "desc": "Tomate, mozzarella, burrata, trozos de tomate, reducción de balsámico y pesto. Vegetariano", "price": 39900}, {"id": "pz2", "section": "Pizze e Calzoni", "name": "Pizza Prosciutto", "desc": "Tomate, mozzarella, prosciutto, rúgula o albahaca", "price": 43000}, {"id": "pz3", "section": "Pizze e Calzoni", "name": "Pizza Mexicana", "desc": "Tomate, mozzarella, carne molida, maíz tierno, jalapeños, aguacate y nachos. Moderadamente picante", "price": 39900}, {"id": "pz4", "section": "Pizze e Calzoni", "name": "Pizza Trattoria", "desc": "Tomate, mozzarella, cebolla caramelizada y tocineta", "price": 38000}, {"id": "pz5", "section": "Pizze e Calzoni", "name": "Pizza Pollo Parmesano", "desc": "Base blanca, mozzarella, pollo, parmesano y ajo", "price": 38000}, {"id": "pz6", "section": "Pizze e Calzoni", "name": "Pizza Pera e Pancetta", "desc": "Tomate, mozzarella, pera, tocineta y reducción de balsámico", "price": 38000}, {"id": "pz7", "section": "Pizze e Calzoni", "name": "Pizza Quattro Carni", "desc": "Tomate, mozzarella, chorizo, jamón, tocineta y salami", "price": 38000}, {"id": "pz8", "section": "Pizze e Calzoni", "name": "Pizza Diavola", "desc": "Tomate, mozzarella, chorizo español y peperoncino. Moderadamente picante", "price": 37000}, {"id": "pz9", "section": "Pizze e Calzoni", "name": "Pizza Salami", "desc": "Tomate, mozzarella y salami", "price": 35000}, {"id": "pz10", "section": "Pizze e Calzoni", "name": "Pizza Jamón", "desc": "Tomate, mozzarella y jamón", "price": 32000}, {"id": "pz11", "section": "Pizze e Calzoni", "name": "Pizza Spagnola", "desc": "Tomate, mozzarella, chorizo español y queso manchego", "price": 43000}, {"id": "pz12", "section": "Pizze e Calzoni", "name": "Pizza Marinera", "desc": "Tomate, mozzarella, camarones, calamares, mejillones y perejil", "price": 43000}, {"id": "pz13", "section": "Pizze e Calzoni", "name": "Pizza Salmone", "desc": "Tomate, mozzarella, salmón curado, alcaparras y cebollín", "price": 41000}, {"id": "pz14", "section": "Pizze e Calzoni", "name": "Pizza Sorrento", "desc": "Tomate, mozzarella y anchoas", "price": 35000}, {"id": "pz15", "section": "Pizze e Calzoni", "name": "Pizza Mela Manzana", "desc": "Tomate, mozzarella, manzana verde, queso azul, albahaca y reducción de balsámico. Vegetariano", "price": 35000}, {"id": "pz16", "section": "Pizze e Calzoni", "name": "Pizza Pesto e Funghi", "desc": "Pesto con almendras, mozzarella y champiñones. Vegetariano", "price": 37000}, {"id": "pz17", "section": "Pizze e Calzoni", "name": "Pizza Funghi", "desc": "Tomate, mozzarella y champiñones. Vegetariano", "price": 32000}, {"id": "pz18", "section": "Pizze e Calzoni", "name": "Pizza Margherita", "desc": "Tomate, mozzarella, tomate en rodajas y albahaca. Vegetariano", "price": 29000}, {"id": "pz19", "section": "Pizze e Calzoni", "name": "Pizza Mediterránea", "desc": "Tomate, mozzarella, chorizo, jamón, tocineta, salami, champiñones, pimentón, cebolla, tomate y ajo", "price": 41000}, {"id": "pz20", "section": "Pizze e Calzoni", "name": "Pizza Didi", "desc": "Tomate, mozzarella, queso azul, champiñones y tocineta", "price": 39000}, {"id": "pz21", "section": "Pizze e Calzoni", "name": "Pizza Pollo e Funghi", "desc": "Tomate, mozzarella, pollo y champiñones", "price": 38000}, {"id": "pz22", "section": "Pizze e Calzoni", "name": "Pizza Maíz e Panceta", "desc": "Tomate, mozzarella, tocineta y maíz", "price": 35000}, {"id": "pz23", "section": "Pizze e Calzoni", "name": "Pizza Pepperoni", "desc": "Tomate, mozzarella y pepperoni. Ligeramente picante", "price": 33000}, {"id": "pz24", "section": "Pizze e Calzoni", "name": "Pizza Hawaiana", "desc": "Tomate, mozzarella, jamón, piña caramelizada y parmesano", "price": 36000}, {"id": "pz25", "section": "Pizze e Calzoni", "name": "Pizza Itagnola", "desc": "Pesto con almendras, mozzarella, manchego, prosciutto y champiñones", "price": 52000}, {"id": "pz26", "section": "Pizze e Calzoni", "name": "Pizza Cartagenera", "desc": "Tomate, mozzarella, carne salada guisada casera y maduro asado", "price": 39900}, {"id": "pz27", "section": "Pizze e Calzoni", "name": "Pizza Mare e Monti", "desc": "Tomate, mozzarella, camarones, portobello y rúgula", "price": 43000}, {"id": "pz28", "section": "Pizze e Calzoni", "name": "Pizza Quattro Formaggi", "desc": "Tomate, mozzarella, provolone, parmesano y queso azul. Vegetariano", "price": 38000}, {"id": "pz29", "section": "Pizze e Calzoni", "name": "Pizza Melanzane Parmigiana", "desc": "Tomate, mozzarella, berenjena, salsa napolitana y parmesano. Vegetariano", "price": 35000}, {"id": "pz30", "section": "Pizze e Calzoni", "name": "Pizza Vegetariana", "desc": "Tomate, mozzarella, champiñones, pimentón, berenjena y cebolla. Vegetariano", "price": 29000}, {"id": "pz31", "section": "Pizze e Calzoni", "name": "Pizza Napolitana", "desc": "Tomate y mozzarella. Vegetariano", "price": 26000}, {"id": "pz32", "section": "Pizze e Calzoni", "name": "Pizza Burrata", "desc": "Tomate, mozzarella, burrata al centro, tomate, reducción de balsámico, ajo y pesto de almendras", "price": 59900}, {"id": "pa1", "section": "Pasta", "name": "Gnocchi Quattro Formaggi", "desc": "Gnocchi de ñame de los Montes de María en salsa blanca, provolone, queso azul, mozzarella y parmesano. Vegetariano", "price": 39900}, {"id": "pa2", "section": "Pasta", "name": "Pasta Mare e Monti", "desc": "Camarones, champiñones, vino blanco, salsa blanca, ajo y parmesano", "price": 45000}, {"id": "pa3", "section": "Pasta", "name": "Pasta Vongole", "desc": "Almejas en su concha, aceite de oliva, peperoncino, ajo, perejil y vino blanco, sin parmesano. Ligeramente picante", "price": 49900}, {"id": "pa4", "section": "Pasta", "name": "Pasta alla Amatriciana", "desc": "Tocineta, salsa pomodoro, peperoncino y queso de cabra. Ligeramente picante", "price": 38000}, {"id": "pa5", "section": "Pasta", "name": "Pasta Carbonara Nostra", "desc": "Tocineta, salsa blanca, huevo y parmesano", "price": 38000}, {"id": "pa6", "section": "Pasta", "name": "Pasta Bolognese", "desc": "Carne molida de res, tomate y parmesano", "price": 42000}, {"id": "pa7", "section": "Pasta", "name": "Pasta Alfredo", "desc": "Salsa blanca, mantequilla y parmesano. Vegetariano", "price": 29000}, {"id": "pa8", "section": "Pasta", "name": "Pasta al Pesto", "desc": "Pesto de albahaca, aceite de oliva, ajo, parmesano y almendras. Vegetariano", "price": 29000}, {"id": "pa9", "section": "Pasta", "name": "Pasta Quattro Formaggi", "desc": "Salsa blanca, provolone, queso azul, mozzarella y parmesano. Vegetariano", "price": 42000}, {"id": "pa10", "section": "Pasta", "name": "Pasta Pomodoro", "desc": "Salsa de tomate fresco, albahaca, ajo, aceite de oliva y parmesano. Vegetariano", "price": 31000}, {"id": "pa11", "section": "Pasta", "name": "Gnocchi Tierra Adentro", "desc": "Gnocchi de ñame en salsa pomodoro con queso costeño, tocineta y crocante de casabe con mantequilla de ajo", "price": 37000}, {"id": "pa12", "section": "Pasta", "name": "Pasta Marinera", "desc": "Calamares, camarones, mejillones, vino blanco, ajo y perejil, sin parmesano. Salsa al gusto: pomodoro, blanca, rosé o aceite de oliva", "price": 47000}, {"id": "pa13", "section": "Pasta", "name": "Pasta Puttanesca", "desc": "Anchoas, aceitunas, alcaparras, pomodoro, tomate fresco, ajo, peperoncino y albahaca, sin parmesano. Moderadamente picante", "price": 45000}, {"id": "pa14", "section": "Pasta", "name": "Pasta Di Silvio", "desc": "Tocineta, queso azul, tomates secos, almendras, salsa blanca y parmesano", "price": 42000}, {"id": "pa15", "section": "Pasta", "name": "Pasta Pollo Funghi", "desc": "Pollo, champiñones, salsa blanca, ajo y parmesano", "price": 38000}, {"id": "pa16", "section": "Pasta", "name": "Pasta Primavera", "desc": "Tomate fresco, salsa pomodoro, ajo, albahaca, cubitos de mozzarella y aceite de oliva, sin parmesano. Vegetariano", "price": 35000}, {"id": "pa17", "section": "Pasta", "name": "Pasta al Burro", "desc": "Mantequilla y parmesano. Vegetariano", "price": 27000}, {"id": "pa18", "section": "Pasta", "name": "Pasta Vegetariana", "desc": "Cebolla, champiñones, pimentón, berenjena, ajo y parmesano. Salsa al gusto: pomodoro, blanca o aceite de oliva. Vegetariano", "price": 32000}, {"id": "pa19", "section": "Pasta", "name": "Pasta con Lomo al Queso Azul", "desc": "Lomo fino, crema de leche, queso azul, vino blanco y pimienta negra", "price": 49900}, {"id": "pa20", "section": "Pasta", "name": "Lomo al Pepe Nero e Funghi", "desc": "Lomo fino, vino blanco, salsa blanca, laurel, pimienta negra, perejil, champiñones y aceite de ajo", "price": 49900}, {"id": "pa21", "section": "Pasta", "name": "Pesto e Salmone", "desc": "Pesto con almendras, ajo, crema de leche, salmón curado de la casa y parmesano", "price": 45000}, {"id": "pa22", "section": "Pasta", "name": "Pasta Vodka e Salmone", "desc": "Crema de leche, pomodoro, vodka, trocitos de salmón y cebollín", "price": 42000}, {"id": "es1", "section": "Platos Especiales", "name": "Salmone Mediterraneo", "desc": "Salmón a la plancha con pesto de alcaparras, aceitunas, perejil, ajo, tomate fresco y aceite de oliva, papas en puré, parmesano y ensalada", "price": 55000}, {"id": "es2", "section": "Platos Especiales", "name": "Zuppa Mexitalia", "desc": "Crema de tomate con pollo, mozzarella, jalapeños, crema de leche, nachos y aguacate. Moderadamente picante", "price": 35000}, {"id": "es3", "section": "Platos Especiales", "name": "Filetto di Pesce al Limone", "desc": "Filete de basa rebosado con aceite de oliva, vino blanco y limón, papas en puré, parmesano y ensalada", "price": 34000}, {"id": "es4", "section": "Platos Especiales", "name": "Pesca del Giorno alla Crema d'Aglio", "desc": "Pesca del día rebosada (según disponibilidad), salsa cremosa de ajo, mantequilla y perejil, papas en puré, parmesano y ensalada", "price": 55000}, {"id": "es5", "section": "Platos Especiales", "name": "Scaloppina di Manzo al Vino", "desc": "Rib eye con romero en reducción de vino tinto, papas en puré, parmesano y ensalada", "price": 55000}, {"id": "es6", "section": "Platos Especiales", "name": "Pollo Trattoria", "desc": "Pechuga de pollo con champiñones, crema de leche, queso azul, vino y hierbas frescas, papas en puré, parmesano y ensalada", "price": 49000}, {"id": "es7", "section": "Platos Especiales", "name": "Filetto di Pesce Marinera", "desc": "Filete de basa en salsa marinera con calamares, camarones y mejillones, papas en puré, parmesano y ensalada", "price": 49000}, {"id": "es8", "section": "Platos Especiales", "name": "Pesca del Giorno Marinera", "desc": "Pesca del día rebosada (según disponibilidad) en salsa marinera con calamares, camarones y mejillones, papas en puré, parmesano y ensalada", "price": 59000}, {"id": "es9", "section": "Platos Especiales", "name": "Saltimbocca alla Romana", "desc": "Rib eye con salvia y prosciutto en reducción de vino tinto, papas en puré, parmesano y ensalada", "price": 62000}, {"id": "es10", "section": "Platos Especiales", "name": "Pollo alla Pizzaiola", "desc": "Pechuga de pollo rebosada con salsa pomodoro, mozzarella y orégano, papas en puré, parmesano y ensalada", "price": 49000}, {"id": "es11", "section": "Platos Especiales", "name": "Porchetta", "desc": "Panceta de cerdo con tocineta, hierbas, almendras, peperoncino y vino blanco, papas en puré, parmesano y ensalada", "price": 49000}, {"id": "es12", "section": "Platos Especiales", "name": "Lomo Mare e Terra", "desc": "Lomo de res en trozos con camarones al ajillo, acompañado de pasta en su salsa", "price": 51000}];
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydfpmWj35I6DKsERLm3ci5bnKLKwy1V3SdOUi7Ncs-vgagsPFc7dksvPKYu4-kiTIAdQ/exec";
+const STORE_KEY = "cena-cartagena-703-pedido";
+const SECTIONS = ["Pastas rellenas", "Pizze e Calzoni", "Pasta", "Platos Especiales"];
+const fmt = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+const menu = MENU;
+let myDishId = "", myCalzone = false, myDishErr = false, companions = [];
+const CALZONE = 7000;
+const isPizza = (d) => !!d && d.section === "Pizze e Calzoni";
+let proof = null;            // {name, mime, data (base64)}
+let pickTarget = null;
+let activeTab = SECTIONS[0];
+let sending = false;
+const orderId = "P" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+const dishById = (id) => menu.find(d => d.id === id);
+
+function chosenBlock(dishId, target, calzone, err) {
+  const d = dishById(dishId);
+  if (!d) return `<button type="button" class="btn-select ${err ? "invalid" : ""}" id="pick-${target}" data-pick="${target}" aria-describedby="dErr-${target}">Seleccionar plato</button>
+    <p class="field-error" id="dErr-${target}" ${err ? "" : "hidden"}>${target === "me" ? "Selecciona tu plato." : "Selecciona el plato de tu acompañante."}</p>`;
+  return `<div class="chosen"><span class="sec">${esc(d.section)}</span><span class="amt">${fmt.format(d.price)}</span><span class="dish">${esc(d.name)}</span></div>
+          ${isPizza(d) ? `<label class="calz"><input type="checkbox" data-calz="${target}" ${calzone ? "checked" : ""}> Pedirla en calzone (+${fmt.format(CALZONE)})</label>` : ""}
+          <button type="button" class="btn-select change" data-pick="${target}">Cambiar plato</button>`;
+}
+
+function renderForm() {
+  $("myPick").innerHTML = `<label style="margin:0">Plato fuerte <span class="req" aria-hidden="true">*</span></label>` + chosenBlock(myDishId, "me", myCalzone, myDishErr);
+  $("noCompanions").hidden = companions.length > 0;
+  $("companions").innerHTML = companions.map((c, i) => `
+    <div class="companion">
+      <div class="companion-head"><span>Acompañante ${i + 1}</span><button type="button" class="btn-link" data-del="${i}">Quitar</button></div>
+      <div><label for="cName${i}">Nombre <span class="req" aria-hidden="true">*</span></label><input id="cName${i}" type="text" data-name="${i}" value="${esc(c.name)}" placeholder="Ej. Andrés" required aria-required="true" aria-describedby="cErr${i}" ${c.err ? 'aria-invalid="true"' : ""}>
+      <p class="field-error" id="cErr${i}" ${c.err ? "" : "hidden"}>Escribe el nombre de tu acompañante.</p></div>
+      <div class="pick">${chosenBlock(c.dishId, i, c.calzone, c.dishErr)}</div>
+    </div>`).join("");
+  renderTotals();
+}
+
+function currentItems() {
+  const items = [];
+  const me = dishById(myDishId);
+  const item = (who, d, cz) => ({ who, dish: d.name + (cz && isPizza(d) ? " en calzone" : ""), section: d.section, price: d.price + (cz && isPizza(d) ? CALZONE : 0) });
+  if (me) items.push(item($("who").value.trim() || "Tú", me, myCalzone));
+  companions.forEach((c, i) => {
+    const d = dishById(c.dishId);
+    if (d) items.push(item(c.name.trim() || `Acompañante ${i + 1}`, d, c.calzone));
+  });
+  return items;
+}
+function calc(items) {
+  const subtotal = items.reduce((s, it) => s + it.price, 0);
+  const service = Math.round(subtotal * 0.10);
+  return { subtotal, service, total: subtotal + service };
+}
+function receiptRows(items) {
+  return items.map(it => `<div class="row"><span>${esc(it.who)} · ${esc(it.dish)}</span><span>${fmt.format(it.price)}</span></div>`).join("");
+}
+function renderTotals() {
+  const items = currentItems();
+  $("receiptLines").innerHTML = items.length ? receiptRows(items) : '<div class="row"><span>Aún no has elegido platos</span><span></span></div>';
+  const t = calc(items);
+  $("subtotal").textContent = fmt.format(t.subtotal);
+  $("service").textContent = fmt.format(t.service);
+  $("total").textContent = fmt.format(t.total);
+}
+
+/* Modal del menú */
+function openMenu(target) {
+  pickTarget = target;
+  const current = target === "me" ? myDishId : companions[target]?.dishId;
+  const d = dishById(current);
+  if (d) activeTab = d.section;
+  $("mTitle").textContent = target === "me" ? "Tu plato" : `Plato de ${companions[target].name.trim() || "acompañante " + (Number(target) + 1)}`;
+  renderModal();
+  $("menuModal").showModal();
+}
+function renderModal() {
+  $("tabs").innerHTML = SECTIONS.map(s => `<button type="button" role="tab" class="tab" aria-selected="${s === activeTab}" data-tab="${esc(s)}">${esc(s)}</button>`).join("");
+  const current = pickTarget === "me" ? myDishId : companions[pickTarget]?.dishId;
+  const list = menu.filter(d => d.section === activeTab);
+  $("dishes").innerHTML = list.map(d => `<button type="button" class="dish-opt ${d.id === current ? "on" : ""}" data-dish="${d.id}"><b>${esc(d.name)}</b><span class="p">${fmt.format(d.price)}</span>${d.desc ? `<span class="d">${esc(d.desc)}</span>` : ""}</button>`).join("");
+  $("dishes").scrollTop = 0;
+}
+$("tabs").addEventListener("click", e => { const t = e.target.closest("[data-tab]"); if (t) { activeTab = t.dataset.tab; renderModal(); } });
+$("dishes").addEventListener("click", e => {
+  const b = e.target.closest("[data-dish]"); if (!b) return;
+  if (pickTarget === "me") { myDishId = b.dataset.dish; myDishErr = false; if (!isPizza(dishById(myDishId))) myCalzone = false; }
+  else { companions[pickTarget].dishId = b.dataset.dish; companions[pickTarget].dishErr = false; if (!isPizza(dishById(b.dataset.dish))) companions[pickTarget].calzone = false; }
+  $("menuModal").close(); renderForm();
+});
+$("mClose").addEventListener("click", () => $("menuModal").close());
+$("menuModal").addEventListener("click", e => { if (e.target === $("menuModal")) $("menuModal").close(); });
+
+/* Formulario */
+document.addEventListener("click", e => { const p = e.target.closest("[data-pick]"); if (p) openMenu(p.dataset.pick === "me" ? "me" : Number(p.dataset.pick)); });
+$("who").addEventListener("input", () => { if ($("who").value.trim()) showFieldError("who", false); renderTotals(); });
+$("who").addEventListener("blur", () => { if (!$("who").value.trim()) showFieldError("who", true); });
+document.addEventListener("change", e => {
+  const t = e.target.dataset ? e.target.dataset.calz : undefined; if (t === undefined) return;
+  if (t === "me") myCalzone = e.target.checked; else companions[Number(t)].calzone = e.target.checked;
+  renderTotals();
+});
+$("addCompanion").addEventListener("click", () => { companions.push({ name: "", dishId: "" }); renderForm(); $("cName" + (companions.length - 1))?.focus(); });
+$("companions").addEventListener("input", e => {
+  const i = e.target.dataset.name; if (i === undefined) return;
+  companions[i].name = e.target.value;
+  if (companions[i].err && e.target.value.trim()) { companions[i].err = false; e.target.setAttribute("aria-invalid", "false"); $("cErr" + i).hidden = true; }
+  renderTotals();
+});
+$("companions").addEventListener("focusout", e => {
+  const i = e.target.dataset.name; if (i === undefined || !companions[i]) return;
+  if (!e.target.value.trim()) { companions[i].err = true; e.target.setAttribute("aria-invalid", "true"); $("cErr" + i).hidden = false; }
+});
+$("companions").addEventListener("click", e => { const i = e.target.dataset.del; if (i !== undefined) { companions.splice(Number(i), 1); renderForm(); } });
+
+$("copyKey").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText("@MSR970"); $("copyKey").textContent = "Copiada"; setTimeout(() => $("copyKey").textContent = "Copiar", 1600); }
+  catch { const r = document.createRange(); r.selectNodeContents($("llave")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+});
+
+/* Comprobante: se reduce a JPG liviano antes de enviarlo */
+function readAsDataURL(file) {
+  return new Promise((ok, fail) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = fail; r.readAsDataURL(file); });
+}
+function shrink(file) {
+  return new Promise((ok, fail) => {
+    const img = new Image();
+    img.onload = () => {
+      const max = 1600, k = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(img.src);
+      ok(c.toDataURL("image/jpeg", 0.82));
+    };
+    img.onerror = fail;
+    img.src = URL.createObjectURL(file);
+  });
+}
+$("proof").addEventListener("change", async e => {
+  const f = e.target.files[0]; if (!f) return;
+  proof = null; $("dropZone").classList.remove("ready");
+  if (!f.type.startsWith("image/")) { showProofError(true, "El comprobante debe ser una imagen JPG o PNG."); return; }
+  $("proofLabel").innerHTML = "<b>Preparando imagen…</b>"; showProofError(false);
+  let dataUrl = null, mime = "image/jpeg";
+  try { dataUrl = await shrink(f); }
+  catch {
+    if (f.size <= 8 * 1024 * 1024) { try { dataUrl = await readAsDataURL(f); mime = f.type; } catch {} }
+  }
+  if (!dataUrl) {
+    $("proofLabel").innerHTML = "<b>Subir comprobante</b>";
+    showProofError(true, "No se pudo leer la imagen. Intenta con una captura de pantalla en JPG o PNG.");
+    return;
+  }
+  proof = { name: f.name || "comprobante.jpg", mime, data: dataUrl.split(",")[1] };
+  $("proofPreview").src = dataUrl; $("proofPreview").hidden = false;
+  $("proofLabel").innerHTML = "<b>Comprobante listo</b><br><span class='hint'>Toca para cambiar la imagen</span>"; $("dropZone").classList.add("ready");
+});
+
+function setStatus(msg, kind) { const s = $("status"); s.textContent = msg; s.className = "status" + (kind ? " " + kind : ""); }
+function showProofError(on, msg) {
+  $("dropZone").classList.toggle("invalid", on);
+  $("proofErr").hidden = !on;
+  if (msg) $("proofErr").textContent = msg;
+  $("proof").setAttribute("aria-invalid", on ? "true" : "false");
+}
+function showFieldError(id, on) {
+  $(id).setAttribute("aria-invalid", on ? "true" : "false");
+  $(id + "Err").hidden = !on;
+}
+function validate() {
+  const bad = [];
+  const whoBad = !$("who").value.trim();
+  showFieldError("who", whoBad);
+  myDishErr = !dishById(myDishId);
+  companions.forEach(c => { c.err = !c.name.trim(); c.dishErr = !dishById(c.dishId); });
+  renderForm();
+  if (whoBad) bad.push($("who"));
+  if (myDishErr) bad.push($("pick-me"));
+  companions.forEach((c, i) => { if (c.err) bad.push($("cName" + i)); if (c.dishErr) bad.push($("pick-" + i)); });
+  showProofError(!proof, proof ? "" : "Sube la imagen del comprobante para confirmar tu pedido.");
+  if (!proof) bad.push($("dropZone"));
+  if (bad.length) {
+    const first = bad[0];
+    first.scrollIntoView({ block: "center", behavior: "smooth" });
+    if (first.id !== "dropZone") first.focus({ preventScroll: true });
+    return bad.length === 1 ? "Falta completar un campo obligatorio." : `Faltan ${bad.length} campos obligatorios.`;
+  }
+  if (!/^https:\/\/script\.google\.com\//.test(SCRIPT_URL)) return "El formulario todavía no está conectado. Avísale a la organizadora.";
+  return "";
+}
+
+$("send").addEventListener("click", async () => {
+  const err = validate(); if (err) { setStatus(err, "err"); return; }
+  if (sending) return;
+  sending = true; setStatus(""); $("send").disabled = true; $("send").textContent = "Enviando…";
+  const items = currentItems(); const t = calc(items);
+  const who = $("who").value.trim(), notes = $("notes").value.trim();
+  const payload = { orderId, name: who, items, subtotal: t.subtotal, service: t.service, total: t.total, notes, proof };
+  try {
+    const res = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+    const out = await res.json();
+    if (!out.ok) throw new Error(out.error || "rechazado");
+    const saved = { who, items, t, notes, at: Date.now() };
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(saved)); } catch {}
+    showDone(saved);
+    showOk(who, items, t, notes);
+  } catch (e) {
+    setStatus("No se envió el pedido. Revisa tu conexión e intenta de nuevo. Si sigue fallando, avísale a la organizadora.", "err");
+  } finally { sending = false; $("send").disabled = false; $("send").textContent = "Enviar pedido"; }
+});
+
+/* Confirmación */
+function showDone(o) {
+  $("formArea").hidden = true; $("doneArea").hidden = false;
+  $("doneDetail").innerHTML = `<div class="receipt" style="margin-top:4px">${receiptRows(o.items)}<hr>
+    <div class="row total"><span class="lbl"><b>Total</b><small>Incluye el 10% de servicio</small></span><span class="big">${fmt.format(o.t.total)}</span></div></div>${o.notes ? `<p class="comment" style="margin:8px 0 0">${esc(o.notes)}</p>` : ""}`;
+}
+function showOk(who, items, t, notes) {
+  $("okLede").textContent = `Gracias, ${who.split(" ")[0]}. Tu pedido quedó registrado y no se puede cambiar.`;
+  $("okReceipt").innerHTML = receiptRows(items) +
+    `<hr><div class="row"><span>Subtotal</span><span>${fmt.format(t.subtotal)}</span></div><div class="row"><span>Servicio</span><span>${fmt.format(t.service)}</span></div>
+     <div class="row total"><span class="lbl"><b>Total pagado</b><small>Incluye el 10% de servicio</small></span><span class="big">${fmt.format(t.total)}</span></div>`;
+  $("okNotes").hidden = !notes; $("okNotes").textContent = notes ? "Comentario: " + notes : "";
+  try { $("okModal").showModal(); } catch { $("okModal").setAttribute("open", ""); }
+  $("okClose").focus();
+}
+$("okClose").addEventListener("click", () => { $("okModal").close(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+$("okModal").addEventListener("click", e => { if (e.target === $("okModal")) $("okModal").close(); });
+$("newOrder").addEventListener("click", () => {
+  try { localStorage.removeItem(STORE_KEY); } catch {}
+  location.reload();
+});
+
+renderForm();
+try { const prev = JSON.parse(localStorage.getItem(STORE_KEY) || "null"); if (prev && prev.items) showDone(prev); } catch {}
+</script>
+</body>
+</html>
